@@ -40,6 +40,8 @@ class App extends Component {
     });
 
   noteUpdate = (id, noteObj) => {
+    if (id === 'nJXfBIEYMyUnJ28FSvcD') return;
+
     firebase
       .firestore()
       .collection('notes')
