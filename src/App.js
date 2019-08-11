@@ -15,6 +15,24 @@ class App extends Component {
     };
   }
 
+  componentDidMount = () => {
+    firebase
+      .firestore()
+      .collection('notes')
+      .onSnapshot(serverUpdate => {
+        const notes = serverUpdate.docs.map(_doc => {
+          const data = _doc.data();
+          data['id'] = _doc.id;
+          return data;
+        });
+        this.setState({
+          notes: notes,
+          selectedNoteIndex: 'nJXfBIEYMyUnJ28FSvcD',
+          selectedNote: notes[0]
+        });
+      });
+  };
+
   selectNote = (note, index) =>
     this.setState({
       selectedNoteIndex: index,
@@ -63,6 +81,9 @@ class App extends Component {
   };
 
   deleteNote = async note => {
+    if (note.id === 'nJXfBIEYMyUnJ28FSvcD')
+      return alert('Cannot delete the welcome note ;)');
+
     const noteIndex = this.state.notes.indexOf(note);
     await this.setState({
       notes: this.state.notes.filter(_note => _note !== note)
@@ -112,20 +133,6 @@ class App extends Component {
       </div>
     );
   }
-
-  componentDidMount = () => {
-    firebase
-      .firestore()
-      .collection('notes')
-      .onSnapshot(serverUpdate => {
-        const notes = serverUpdate.docs.map(_doc => {
-          const data = _doc.data();
-          data['id'] = _doc.id;
-          return data;
-        });
-        this.setState({ notes: notes });
-      });
-  };
 }
 
 export default App;
