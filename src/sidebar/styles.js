@@ -24,7 +24,8 @@ const styles = theme => ({
     backgroundColor: '#29487d',
     color: 'white',
     '&:hover': {
-      backgroundColor: '#88a2ce'
+      textDecoration: 'none',
+      backgroundColor: '#29487d'
     }
   },
   sidebarContainer: {
@@ -51,7 +52,11 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: '#28787c',
     borderRadius: '0px',
-    color: 'white'
+    color: 'white',
+    '&:hover': {
+      textDecoration: 'none',
+      backgroundColor: '#28787c'
+    }
   }
 });
 

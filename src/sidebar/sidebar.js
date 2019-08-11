@@ -28,12 +28,24 @@ class SidebarComponent extends Component {
   };
 
   newNote = () => {
-    console.log(this.state);
+    this.props.newNote(this.state.title);
+    this.setState({
+      title: null,
+      addingNote: false
+    });
+  };
+
+  selectNote = (note, index) => {
+    this.props.selectNote(note, index);
+  };
+
+  deleteNote = note => {
+    this.props.deleteNote(note);
   };
 
   render() {
     const { notes, classes, selectedNoteIndex } = this.props;
-    return (
+    return notes ? (
       <div className={classes.sidebarContainer}>
         <Button onClick={this.newNoteBtnClick} className={classes.newNoteBtn}>
           {this.state.addingNote ? 'Cancel' : 'New Note'}
@@ -51,8 +63,24 @@ class SidebarComponent extends Component {
             </Button>
           </div>
         ) : null}
+        <List>
+          {notes.map((_note, _index) => {
+            return (
+              <div key={_index}>
+                <SidebarItemComponent
+                  _note={_note}
+                  _index={_index}
+                  selectedNoteIndex={selectedNoteIndex}
+                  selectNote={this.selectNote}
+                  deleteNote={this.deleteNote}
+                />
+                <Divider />
+              </div>
+            );
+          })}
+        </List>
       </div>
-    );
+    ) : null;
   }
 }
 
